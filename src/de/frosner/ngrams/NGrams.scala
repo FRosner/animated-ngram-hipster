@@ -9,7 +9,7 @@ object NGrams {
   def main(args: Array[String]) {
     val n = args(0).toInt
     val nGramLines = for (line <- Source.stdin.getLines()) yield line.sliding(n).map((_, 1))
-    val nGrams = nGramLines.reduce(_ ++ _).toIterable
+    val nGrams = nGramLines.reduce(_ ++ _).toIterable.par
     val counts = nGrams.groupBy{ case (ngram, _) => ngram }.mapValues(_.size)
     counts foreach println
   }
